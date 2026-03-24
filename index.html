@@ -3,7 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test2</title>
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.structure.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.theme.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
   </head>
-  <body></body>
+  <body>
+    <main>
+      <section>
+        <h1>Bootstrap Test</h1>
+        <div class="container">
+          <!-- İçerik burada ortalanmış ve sabit genişlikte görünür -->
+          <h2>Sabit Genişlik</h2>
+          <div class="row">
+            <div class="col-6 bg-primary text-white">
+              <h3>Sol Taraf</h3>
+            </div>
+
+            <div class="col-6 bg-secondary text-white">
+              <h3>Sağ Taraf</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <!-- İçerik ekranın tamamını kaplar -->
+          <h2>Tam Genişlik</h2>
+          <div class="row">
+            <div class="col-6 bg-primary text-white">
+              <h3>6 sütunluk</h3>
+            </div>
+
+            <div class="col-4 offset-2 bg-secondary text-white">
+              <h3>Solda 2 boşluk 4 sütunluk</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+      <hr />
+      <section>
+        <h1>Liste Editörü (JQuery Testi)</h1>
+        <div>
+          <label for="yeniEleman">Yeni marka</label>
+          <input type="text" name="yeniEleman" id="yeniEleman" />
+        </div>
+        <div>
+          <button id="Ekle" onclick="ekle()">EKLE</button>
+        </div>
+        <div>
+          <ul id="listem"></ul>
+        </div>
+      </section>
+    </main>
+    <script src="./scripts/jquery-4.0.0.min.js"></script>
+    <script src="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.js"></script>
+    <script src="./styles/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+    <script src="./styles/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./scripts/main.js"></script>
+  </body>
 </html>
