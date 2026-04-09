@@ -1,78 +1,135 @@
 <!doctype html>
-<html lang="en">
+<html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.structure.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.theme.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css"
-    />
+    <title>Boru Hattı Analiz Paneli</title>
+    
+    <link rel="stylesheet" href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css" />
+    <link rel="stylesheet" href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/sidebar.css" />
+    <link rel="stylesheet" href="./styles/cards.css" />
   </head>
-  <body>
-    <main>
-      <section>
-        <h1>Bootstrap Test</h1>
-        <div class="container">
-          <!-- İçerik burada ortalanmış ve sabit genişlikte görünür -->
-          <h2>Sabit Genişlik</h2>
-          <div class="row">
-            <div class="col-6 bg-primary text-white">
-              <h3>Sol Taraf</h3>
-            </div>
+  <body class="dark-theme">
+    <div class="wrapper d-flex">
+      
+      <nav id="sidebar" class="bg-dark text-light border-end border-secondary">
+        <div class="sidebar-header p-4">
+          <h3 class="mb-0 text-info"><i class="fa-solid fa-water"></i> SıfırSızıntıHattı</h3>
+        </div>
+        <ul class="list-unstyled components p-3">
+          <li class="active mb-3">
+            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-chart-line me-2"></i> Genel Bakış</a>
+          </li>
+          <li class="mb-3">
+            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-satellite-dish me-2"></i> Sensörler</a>
+          </li>
+          <li class="mb-3">
+            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-triangle-exclamation me-2"></i> Uyarılar <span class="badge bg-danger ms-2" id="alert-counter">0</span></a>
+          </li>
+          <li>
+            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-gear me-2"></i> Ayarlar</a>
+          </li>
+        </ul>
+      </nav>
 
-            <div class="col-6 bg-secondary text-white">
-              <h3>Sağ Taraf</h3>
+      <div id="content" class="w-100 flex-grow-1 p-4 bg-dark text-light">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0">Canlı Sistem Analizi</h2>
+          <div class="status-indicator d-flex align-items-center">
+            <span class="status-dot healthy me-2" id="system-status-dot"></span>
+            <span id="system-status-text">Sistem Normal</span>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          
+          <div class="col-md-4">
+            <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-primary">
+              <h5 class="text-muted mb-2"><i class="fa-solid fa-droplet text-primary"></i> Toprak Nemi</h5>
+              <div class="d-flex align-items-end justify-content-between">
+                <h3 class="mb-0 fw-bold"><span id="moisture-val">45</span>%</h3>
+                <i class="fa-solid fa-arrow-up text-danger arrow-icon d-none" id="moisture-trend"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-info">
+              <h5 class="text-muted mb-2"><i class="fa-solid fa-compress text-info"></i> Hat Basıncı</h5>
+              <div class="d-flex align-items-end justify-content-between">
+                <h3 class="mb-0 fw-bold"><span id="pressure-val">5.2</span> bar</h3>
+                <i class="fa-solid fa-arrow-down text-danger arrow-icon d-none" id="pressure-trend"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-warning">
+              <h5 class="text-muted mb-2"><i class="fa-solid fa-temperature-empty text-warning"></i> Hava Sıcaklığı</h5>
+              <div class="d-flex align-items-end justify-content-between">
+                <h3 class="mb-0 fw-bold"><span id="temp-val">22</span>°C</h3>
+                <i class="fa-solid fa-minus text-secondary arrow-icon" id="temp-trend"></i>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="container-fluid">
-          <!-- İçerik ekranın tamamını kaplar -->
-          <h2>Tam Genişlik</h2>
-          <div class="row">
-            <div class="col-6 bg-primary text-white">
-              <h3>6 sütunluk</h3>
+        <div class="row">
+          <div class="col-lg-8 mb-4">
+            <div class="chart-container bg-black p-4 rounded">
+              <h5 class="mb-4">Zaman Serisi Analizi</h5>
+              <canvas id="mainChart" height="100"></canvas>
             </div>
-
-            <div class="col-4 offset-2 bg-secondary text-white">
-              <h3>Solda 2 boşluk 4 sütunluk</h3>
+          </div>
+          <div class="col-lg-4 mb-4">
+            <div class="log-container bg-black p-4 rounded h-100 d-flex flex-column">
+              <h5 class="mb-4 d-flex justify-content-between">Aktivite Kayıtları <button class="btn btn-sm btn-outline-light" id="clear-log-btn"><i class="fa-solid fa-trash"></i></button></h5>
+              <div class="log-entries flex-grow-1 overflow-auto" id="log-list">
+              </div>
             </div>
           </div>
         </div>
-      </section>
-      <hr />
-      <section>
-        <h1>Liste Editörü (JQuery Testi)</h1>
-        <div>
-          <label for="yeniEleman">Yeni marka</label>
-          <input type="text" name="yeniEleman" id="yeniEleman" />
+
+      </div>
+    </div>
+
+    <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-danger">
+          <div class="modal-header border-danger">
+            <h5 class="modal-title font-monospace text-danger fw-bold" id="warningModalLabel">
+              <i class="fa-solid fa-triangle-exclamation pulse-danger"></i> SIZINTI TEHLİKESİ TESPİT EDİLDİ
+            </h5>
+          </div>
+          <div class="modal-body p-4">
+            <p class="mb-4 fs-5">Yapay zeka analiz motoru verilere dayanarak boru hattında yüksek riskli bir değişim saptadı.</p>
+            <div class="p-3 bg-black rounded" id="warning-reasons">
+            </div>
+            <p class="mt-4 text-warning small"><i class="fa-solid fa-circle-info"></i> Lütfen acil müdahale ekiplerini bölgeye yönlendirin.</p>
+          </div>
+          <div class="modal-footer border-secondary">
+            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Yoksay</button>
+            <button type="button" class="btn btn-danger" id="acknowledge-btn">Güvenliği Sağla (Alarmı Sustur)</button>
+          </div>
         </div>
-        <div>
-          <button id="Ekle" onclick="ekle()">EKLE</button>
-        </div>
-        <div>
-          <ul id="listem"></ul>
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
+
     <script src="./scripts/jquery-4.0.0.min.js"></script>
     <script src="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.js"></script>
-    <script src="./styles/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
     <script src="./styles/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="./scripts/simulation.js"></script>
+    <script src="./scripts/ui_manager.js"></script>
+    <script src="./scripts/charts.js"></script>
     <script src="./scripts/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,47 @@
+# --- Bağımlılıklar (NodeJS) ---
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# --- Gizli Bilgiler ve API Anahtarları ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- Derlenmiş veya Üretilmiş Çıktılar ---
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# --- Veritabanı Dosyaları (Yerel SQL/Veritabanı testleri için) ---
+*.sqlite
+*.sqlite3
+*.db
+
+# --- Editör ve IDE Ayarları ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- İşletim Sistemi Kalıntıları ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Log Dosyaları ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
