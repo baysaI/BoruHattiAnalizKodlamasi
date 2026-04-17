@@ -1,15 +1,15 @@
-const Simulation = {
+﻿const Simulation = {
   intervalId: null,
   tickRate: 2000,
   leakTriggered: false,
   tickCount: 0,
-  
+
   data: {
     moisture: 45.0,
     pressure: 5.2,
     temperature: 22.0
   },
-  
+
   trends: {
     moisture: 0,
     pressure: 0,
@@ -17,7 +17,20 @@ const Simulation = {
   },
 
   start: function() {
-    UIManager.logActivity('Sistem başlatıldı. Sensör verileri bekleniyor...', 'info');
+
+    if ($('#dashboard-view').length) {
+      UIManager.logActivity('Sistem başlatıldı. Sensör verileri bekleniyor...', 'info');
+    }
+
+    const savedData = localStorage.getItem('pipeSimulationData');
+    if (savedData) {
+      this.data = JSON.parse(savedData);
+    }
+    const savedTick = localStorage.getItem('pipeSimulationTick');
+    if (savedTick) {
+      this.tickCount = parseInt(savedTick);
+    }
+
     this.intervalId = setInterval(() => this.tick(), this.tickRate);
   },
 
@@ -30,6 +43,9 @@ const Simulation = {
     this.tickCount = 0;
     this.data.pressure = 5.2;
     this.data.moisture = 45.0;
+    this.data.temperature = 22.0;
+    localStorage.removeItem('pipeSimulationData');
+    localStorage.removeItem('pipeSimulationTick');
   },
 
   tick: function() {
@@ -38,26 +54,50 @@ const Simulation = {
     const prevPressure = this.data.pressure;
     const prevTemp = this.data.temperature;
 
-    if (!this.leakTriggered && this.tickCount > 10) {
-      if (Math.random() > 0.7) {
-        this.leakTriggered = true;
-        UIManager.logActivity('Boru hattında anormal dalgalanma tespit edildi.', 'warning');
-      }
-    }
+    const isRealistic = $('#realistic-mode').length === 0 || $('#realistic-mode').is(':checked');
+    const isAutoPilot = $('#auto-pilot').length > 0 && $('#auto-pilot').is(':checked');
 
-    if (this.leakTriggered) {
-      this.data.pressure -= (0.1 + Math.random() * 0.2);
-      this.data.moisture += (2.0 + Math.random() * 4.0);
+    if (isRealistic) {
+      if (!this.leakTriggered && Math.random() < 0.03) {
+        this.leakTriggered = true;
+        UIManager.logActivity('Boru hattında ani bir basınç değişimi saptandı.', 'warning');
+      }
+
+      if (this.leakTriggered) {
+        this.data.pressure -= (0.05 + Math.random() * 0.1);
+        this.data.moisture += (0.5 + Math.random() * 1.5);
+      } else {
+        this.data.pressure += (Math.random() * 0.08 - 0.04);
+        this.data.moisture += (Math.random() * 0.4 - 0.2);
+      }
       this.data.temperature += (Math.random() * 0.2 - 0.1);
+
+      if (this.leakTriggered && isAutoPilot && Math.random() < 0.1) {
+        this.leakTriggered = false;
+        UIManager.logActivity('Otonom valf kontrolü: Basınç stabilize edildi.', 'success');
+      }
     } else {
-      this.data.pressure += (Math.random() * 0.1 - 0.05);
-      this.data.moisture += (Math.random() * 1.0 - 0.5);
-      this.data.temperature += (Math.random() * 0.4 - 0.2);
+      if (!this.leakTriggered && this.tickCount > 10) {
+        if (Math.random() > 0.7) {
+          this.leakTriggered = true;
+          UIManager.logActivity('Boru hattında anormal dalgalanma tespit edildi.', 'warning');
+        }
+      }
+
+      if (this.leakTriggered) {
+        this.data.pressure -= (0.1 + Math.random() * 0.2);
+        this.data.moisture += (2.0 + Math.random() * 4.0);
+        this.data.temperature += (Math.random() * 0.2 - 0.1);
+      } else {
+        this.data.pressure += (Math.random() * 0.1 - 0.05);
+        this.data.moisture += (Math.random() * 1.0 - 0.5);
+        this.data.temperature += (Math.random() * 0.4 - 0.2);
+      }
     }
 
     this.data.pressure = Math.max(0, Math.min(10, this.data.pressure));
     this.data.moisture = Math.max(0, Math.min(100, this.data.moisture));
-    
+
     this.trends.moisture = this.data.moisture - prevMoisture;
     this.trends.pressure = this.data.pressure - prevPressure;
     this.trends.temperature = this.data.temperature - prevTemp;
@@ -65,8 +105,19 @@ const Simulation = {
     const timeStr = new Date().toLocaleTimeString('tr-TR', { hour12: false, hour: '2-digit', minute: '2-digit', second:'2-digit' });
 
     UIManager.updateDashboard(this.data, this.trends);
-    ChartManager.updateData(timeStr, this.data.moisture, this.data.pressure, this.data.temperature);
-    
+    if (typeof ChartManager !== 'undefined') {
+      ChartManager.updateData(timeStr, this.data.moisture, this.data.pressure, this.data.temperature);
+    }
+
+    if ($('#sensor-moisture-val').length) {
+      $('#sensor-moisture-val').text(this.data.moisture.toFixed(1));
+      $('#sensor-pressure-val').text(this.data.pressure.toFixed(2));
+      $('#sensor-temp-val').text(this.data.temperature.toFixed(1));
+    }
+
+    localStorage.setItem('pipeSimulationData', JSON.stringify(this.data));
+    localStorage.setItem('pipeSimulationTick', this.tickCount);
+
     this.runAnalysis();
   },
 

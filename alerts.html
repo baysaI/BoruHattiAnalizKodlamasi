@@ -1,0 +1,108 @@
+﻿<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uyarılar - Boru Hattı Analizi</title>
+
+    <link rel="stylesheet" href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css" />
+    <link rel="stylesheet" href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/sidebar.css" />
+    <link rel="stylesheet" href="./styles/cards.css" />
+    <link rel="stylesheet" href="./styles/chatbot.css" />
+  </head>
+  <body class="dark-theme">
+    <div class="wrapper d-flex">
+
+      <nav id="sidebar" class="bg-dark text-light border-end border-secondary">
+        <div class="sidebar-header p-4">
+          <h3 class="mb-0 text-info"><i class="fa-solid fa-water"></i> SıfırSızıntıHattı</h3>
+        </div>
+        <ul class="list-unstyled components p-3" id="sidebar-nav">
+          <li class="mb-3 nav-item" id="nav-dashboard">
+            <a href="index.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-chart-line me-2"></i> Genel Bakış</a>
+          </li>
+          <li class="mb-3 nav-item" id="nav-sensors">
+            <a href="sensors.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-satellite-dish me-2"></i> Sensörler</a>
+          </li>
+          <li class="active mb-3 nav-item" id="nav-alerts">
+            <a href="alerts.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-triangle-exclamation me-2"></i> Uyarılar <span class="badge bg-danger ms-2" id="alert-counter-badge">0</span></a>
+          </li>
+          <li class="nav-item" id="nav-settings">
+            <a href="settings.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-gear me-2"></i> Ayarlar</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div id="content" class="w-100 flex-grow-1 p-0 bg-dark text-light position-relative overflow-hidden">
+        <div id="alerts-view" class="page-view animate-fade-in p-4 h-100 overflow-auto">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Sistem Uyarıları</h2>
+            <div>
+              <button class="btn btn-outline-light btn-sm me-2">Filtrele</button>
+              <button class="btn btn-danger btn-sm" id="clear-all-alerts-btn">Tümünü Temizle</button>
+            </div>
+          </div>
+          <div class="bg-black p-4 rounded shadow h-100 d-flex flex-column">
+             <div class="table-responsive flex-grow-1">
+                <table class="table table-dark table-hover border-secondary">
+                  <thead>
+                    <tr>
+                      <th scope="col">Tarih / Saat</th>
+                      <th scope="col">Uyarı Tipi</th>
+                      <th scope="col">Açıklama</th>
+                      <th scope="col">Durum</th>
+                    </tr>
+                  </thead>
+                  <tbody id="alerts-table-body">
+
+                    <tr>
+                      <td colspan="4" class="text-center text-muted py-4">Henüz kritik bir uyarı kaydedilmedi.</td>
+                    </tr>
+                  </tbody>
+                </table>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-danger">
+          <div class="modal-header border-danger">
+            <h5 class="modal-title font-monospace text-danger fw-bold" id="warningModalLabel">
+              <i class="fa-solid fa-triangle-exclamation pulse-danger"></i> SIZINTI TEHLİKESİ TESPİT EDİLDİ
+            </h5>
+          </div>
+          <div class="modal-body p-4">
+            <p class="mb-4 fs-5">Yapay zeka analiz motoru verilere dayanarak boru hattında yüksek riskli bir değişim saptadı.</p>
+            <div class="p-3 bg-black rounded" id="warning-reasons">
+            </div>
+            <p class="mt-4 text-warning small"><i class="fa-solid fa-circle-info"></i> Lütfen acil müdahale ekiplerini bölgeye yönlendirin.</p>
+          </div>
+          <div class="modal-footer border-secondary">
+            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Yoksay</button>
+            <button type="button" class="btn btn-danger" id="acknowledge-btn">Güvenliği Sağla (Alarmı Sustur)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./scripts/jquery-4.0.0.min.js"></script>
+    <script src="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.js"></script>
+    <script src="./styles/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="./scripts/simulation.js"></script>
+    <script src="./scripts/ui_manager.js"></script>
+    <script src="./scripts/charts.js"></script>
+    <script src="./scripts/chatbot.js"></script>
+    <script src="./scripts/main.js"></script>
+  </body>
+</html>

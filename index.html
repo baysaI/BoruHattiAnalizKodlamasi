@@ -1,101 +1,104 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Boru Hattı Analiz Paneli</title>
-    
+
     <link rel="stylesheet" href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css" />
     <link rel="stylesheet" href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css" />
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/sidebar.css" />
     <link rel="stylesheet" href="./styles/cards.css" />
+    <link rel="stylesheet" href="./styles/chatbot.css" />
   </head>
   <body class="dark-theme">
     <div class="wrapper d-flex">
-      
+
       <nav id="sidebar" class="bg-dark text-light border-end border-secondary">
         <div class="sidebar-header p-4">
           <h3 class="mb-0 text-info"><i class="fa-solid fa-water"></i> SıfırSızıntıHattı</h3>
         </div>
-        <ul class="list-unstyled components p-3">
-          <li class="active mb-3">
-            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-chart-line me-2"></i> Genel Bakış</a>
+        <ul class="list-unstyled components p-3" id="sidebar-nav">
+          <li class="active mb-3 nav-item" id="nav-dashboard">
+            <a href="index.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-chart-line me-2"></i> Genel Bakış</a>
           </li>
-          <li class="mb-3">
-            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-satellite-dish me-2"></i> Sensörler</a>
+          <li class="mb-3 nav-item" id="nav-sensors">
+            <a href="sensors.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-satellite-dish me-2"></i> Sensörler</a>
           </li>
-          <li class="mb-3">
-            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-triangle-exclamation me-2"></i> Uyarılar <span class="badge bg-danger ms-2" id="alert-counter">0</span></a>
+          <li class="mb-3 nav-item" id="nav-alerts">
+            <a href="alerts.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-triangle-exclamation me-2"></i> Uyarılar <span class="badge bg-danger ms-2" id="alert-counter-badge">0</span></a>
           </li>
-          <li>
-            <a href="#" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-gear me-2"></i> Ayarlar</a>
+          <li class="nav-item" id="nav-settings">
+            <a href="settings.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-gear me-2"></i> Ayarlar</a>
           </li>
         </ul>
       </nav>
 
-      <div id="content" class="w-100 flex-grow-1 p-4 bg-dark text-light">
-        
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="mb-0">Canlı Sistem Analizi</h2>
-          <div class="status-indicator d-flex align-items-center">
-            <span class="status-dot healthy me-2" id="system-status-dot"></span>
-            <span id="system-status-text">Sistem Normal</span>
-          </div>
-        </div>
+      <div id="content" class="w-100 flex-grow-1 p-0 bg-dark text-light position-relative overflow-hidden">
 
-        <div class="row mb-4">
-          
-          <div class="col-md-4">
-            <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-primary">
-              <h5 class="text-muted mb-2"><i class="fa-solid fa-droplet text-primary"></i> Toprak Nemi</h5>
-              <div class="d-flex align-items-end justify-content-between">
-                <h3 class="mb-0 fw-bold"><span id="moisture-val">45</span>%</h3>
-                <i class="fa-solid fa-arrow-up text-danger arrow-icon d-none" id="moisture-trend"></i>
-              </div>
+        <div id="dashboard-view" class="page-view animate-fade-in p-4 h-100 overflow-auto">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Canlı Sistem Analizi</h2>
+            <div class="status-indicator d-flex align-items-center">
+              <span class="status-dot healthy me-2" id="system-status-dot"></span>
+              <span id="system-status-text">Sistem Normal</span>
             </div>
           </div>
-          
-          <div class="col-md-4">
-            <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-info">
-              <h5 class="text-muted mb-2"><i class="fa-solid fa-compress text-info"></i> Hat Basıncı</h5>
-              <div class="d-flex align-items-end justify-content-between">
-                <h3 class="mb-0 fw-bold"><span id="pressure-val">5.2</span> bar</h3>
-                <i class="fa-solid fa-arrow-down text-danger arrow-icon d-none" id="pressure-trend"></i>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-4">
-            <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-warning">
-              <h5 class="text-muted mb-2"><i class="fa-solid fa-temperature-empty text-warning"></i> Hava Sıcaklığı</h5>
-              <div class="d-flex align-items-end justify-content-between">
-                <h3 class="mb-0 fw-bold"><span id="temp-val">22</span>°C</h3>
-                <i class="fa-solid fa-minus text-secondary arrow-icon" id="temp-trend"></i>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-lg-8 mb-4">
-            <div class="chart-container bg-black p-4 rounded">
-              <h5 class="mb-4">Zaman Serisi Analizi</h5>
-              <canvas id="mainChart" height="100"></canvas>
+          <div class="row mb-4">
+            <div class="col-md-4">
+              <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-primary shadow-sm glass-panel">
+                <h5 class="text-muted mb-2"><i class="fa-solid fa-droplet text-primary"></i> Toprak Nemi</h5>
+                <div class="d-flex align-items-end justify-content-between">
+                  <h3 class="mb-0 fw-bold"><span id="moisture-val">45</span>%</h3>
+                  <i class="fa-solid fa-arrow-up text-danger arrow-icon d-none" id="moisture-trend"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-info shadow-sm glass-panel">
+                <h5 class="text-muted mb-2"><i class="fa-solid fa-compress text-info"></i> Hat Basıncı</h5>
+                <div class="d-flex align-items-end justify-content-between">
+                  <h3 class="mb-0 fw-bold"><span id="pressure-val">5.2</span> bar</h3>
+                  <i class="fa-solid fa-arrow-down text-danger arrow-icon d-none" id="pressure-trend"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="data-card p-4 rounded bg-secondary-subtle text-dark border-start border-4 border-warning shadow-sm glass-panel">
+                <h5 class="text-muted mb-2"><i class="fa-solid fa-temperature-empty text-warning"></i> Hava Sıcaklığı</h5>
+                <div class="d-flex align-items-end justify-content-between">
+                  <h3 class="mb-0 fw-bold"><span id="temp-val">22</span>°C</h3>
+                  <i class="fa-solid fa-minus text-secondary arrow-icon" id="temp-trend"></i>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col-lg-4 mb-4">
-            <div class="log-container bg-black p-4 rounded h-100 d-flex flex-column">
-              <h5 class="mb-4 d-flex justify-content-between">Aktivite Kayıtları <button class="btn btn-sm btn-outline-light" id="clear-log-btn"><i class="fa-solid fa-trash"></i></button></h5>
-              <div class="log-entries flex-grow-1 overflow-auto" id="log-list">
+
+          <div class="row h-50">
+            <div class="col-lg-8 mb-4 h-100">
+              <div class="chart-container bg-black p-4 rounded h-100 shadow">
+                <h5 class="mb-4">Zaman Serisi Analizi</h5>
+                <canvas id="mainChart" height="100"></canvas>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4 h-100">
+              <div class="log-container bg-black p-4 rounded h-100 d-flex flex-column shadow">
+                <h5 class="mb-4 d-flex justify-content-between align-items-center">Aktivite Kayıtları <button class="btn btn-sm btn-outline-light" id="clear-log-btn"><i class="fa-solid fa-trash"></i></button></h5>
+                <div class="log-entries flex-grow-1 overflow-auto pe-2" id="log-list">
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
       </div>
     </div>
@@ -126,10 +129,11 @@
     <script src="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.js"></script>
     <script src="./styles/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <script src="./scripts/simulation.js"></script>
     <script src="./scripts/ui_manager.js"></script>
     <script src="./scripts/charts.js"></script>
+    <script src="./scripts/chatbot.js"></script>
     <script src="./scripts/main.js"></script>
   </body>
 </html>

@@ -1,10 +1,10 @@
-const ChartManager = {
+﻿const ChartManager = {
   mainChart: null,
   maxPoints: 30,
 
   init: function() {
     const ctx = document.getElementById('mainChart').getContext('2d');
-    
+
     Chart.defaults.color = '#888';
     Chart.defaults.font.family = 'Inter';
 
@@ -87,21 +87,21 @@ const ChartManager = {
 
   updateData: function(timeStr, moisture, pressure, temperature) {
     if (!this.mainChart) return;
-    
+
     const chartData = this.mainChart.data;
-    
+
     chartData.labels.push(timeStr);
     chartData.datasets[0].data.push(moisture);
     chartData.datasets[1].data.push(pressure);
     chartData.datasets[2].data.push(temperature);
-    
+
     if (chartData.labels.length > this.maxPoints) {
       chartData.labels.shift();
       chartData.datasets[0].data.shift();
       chartData.datasets[1].data.shift();
       chartData.datasets[2].data.shift();
     }
-    
+
     this.mainChart.update('none');
   }
 };
