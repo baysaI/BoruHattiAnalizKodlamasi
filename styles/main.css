@@ -121,3 +121,26 @@ body.sidebar-open {
 .reason-item:last-child {
   border-bottom: none;
 }
+
+/* UI Improvements */
+.data-card {
+  background-clip: padding-box;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.data-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+}
+
+.btn-outline-light:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.08);
+  outline: none;
+}
+
+.glass-panel {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(4px);
+}
+
+/* Improve contrast for badges on dark bg */
+.badge.bg-warning.text-dark { background-color: #ffc107; color: #1a1d21; }

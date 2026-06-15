@@ -22,16 +22,21 @@
   });
 
   $('#sidebar-toggle').on('click', function() {
+    const btn = $(this);
+    const expanded = btn.attr('aria-expanded') === 'true';
+    btn.attr('aria-expanded', (!expanded).toString());
     $('body').toggleClass('sidebar-open');
   });
 
   $('.sidebar-overlay').on('click', function() {
     $('body').removeClass('sidebar-open');
+    $('#sidebar-toggle').attr('aria-expanded', 'false');
   });
 
   $('#sidebar a').on('click', function() {
     if ($(window).width() < 992) {
       $('body').removeClass('sidebar-open');
+      $('#sidebar-toggle').attr('aria-expanded', 'false');
     }
   });
 
