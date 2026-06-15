@@ -1,0 +1,19 @@
+﻿.data-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.data-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.data-card h3 {
+  font-size: 2.5rem;
+  letter-spacing: -1px;
+}
+
+.arrow-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}

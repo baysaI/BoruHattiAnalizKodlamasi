@@ -1,0 +1,142 @@
+﻿<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ayarlar - Boru Hattı Analizi</title>
+
+    <link rel="stylesheet" href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css" />
+    <link rel="stylesheet" href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/sidebar.css" />
+    <link rel="stylesheet" href="./styles/cards.css" />
+    <link rel="stylesheet" href="./styles/chatbot.css" />
+  </head>
+  <body class="dark-theme">
+    <div class="wrapper d-flex">
+
+      <nav id="sidebar" class="bg-dark text-light border-end border-secondary">
+        <div class="sidebar-header p-4">
+          <h3 class="mb-0 text-info"><i class="fa-solid fa-water"></i> SıfırSızıntıHattı</h3>
+        </div>
+        <ul class="list-unstyled components p-3" id="sidebar-nav">
+          <li class="mb-3 nav-item" id="nav-dashboard">
+            <a href="index.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-chart-line me-2"></i> Genel Bakış</a>
+          </li>
+          <li class="mb-3 nav-item" id="nav-sensors">
+            <a href="sensors.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-satellite-dish me-2"></i> Sensörler</a>
+          </li>
+          <li class="mb-3 nav-item" id="nav-alerts">
+            <a href="alerts.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-triangle-exclamation me-2"></i> Uyarılar <span class="badge bg-danger ms-2" id="alert-counter-badge">0</span></a>
+          </li>
+          <li class="active nav-item" id="nav-settings">
+            <a href="settings.html" class="text-decoration-none text-light d-block p-2 rounded"><i class="fa-solid fa-gear me-2"></i> Ayarlar</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div id="content" class="w-100 flex-grow-1 p-0 bg-dark text-light position-relative overflow-hidden">
+        <div id="settings-view" class="page-view animate-fade-in p-4 h-100 overflow-auto">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <button id="sidebar-toggle" class="btn btn-outline-light d-md-none topbar-action me-3" type="button"><i class="fa-solid fa-bars"></i></button>
+            <h2 class="mb-0">Sistem Ayarları</h2>
+          </div>
+          <form id="settings-form" class="needs-validation" novalidate>
+            <div class="row align-items-start">
+            <div class="col-lg-6 mb-4">
+              <div class="bg-black p-4 rounded shadow mb-4">
+                <h5 class="mb-4 border-bottom border-secondary pb-2">Sensör Alarm Eşikleri</h5>
+
+                <div class="mb-3">
+                  <label for="min-pressure-threshold" class="form-label d-flex justify-content-between">
+                    <span>Minimum Basınç Uyarısı (bar)</span>
+                    <span id="pressure-threshold-display" class="text-info">4.0</span>
+                  </label>
+                  <input type="range" class="form-range custom-range" id="min-pressure-threshold" min="1" max="8" value="4" step="0.5">
+                </div>
+
+                <div class="mb-3">
+                  <label for="max-moisture-threshold" class="form-label d-flex justify-content-between">
+                    <span>Maksimum Toprak Nemi Uyarısı (%)</span>
+                    <span id="moisture-threshold-display" class="text-info">65</span>
+                  </label>
+                  <input type="range" class="form-range custom-range" id="max-moisture-threshold" min="50" max="95" value="65" step="1">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="bg-black p-4 rounded shadow mb-4">
+                <h5 class="mb-4 border-bottom border-secondary pb-2">Bildirim Tercihleri</h5>
+                <div class="form-check form-switch mb-3 custom-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="audio-alerts" checked>
+                  <label class="form-check-label" for="audio-alerts">Sistem Sesli Uyarıları Aktif</label>
+                </div>
+                <div class="form-check form-switch mb-3 custom-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="email-notifications" checked>
+                  <label class="form-check-label" for="email-notifications">Kritik Uyarıları E-Posta İle Bildir</label>
+                </div>
+                <div class="form-check form-switch mb-4 custom-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="sms-notifications">
+                  <label class="form-check-label" for="sms-notifications">Saha Ekibine SMS Gönder</label>
+                </div>
+                <div id="notification-validation" class="invalid-feedback d-none">
+                  En az bir bildirim seçeneği etkin olmalıdır.
+                </div>
+              </div>
+
+              <div class="bg-black p-4 rounded shadow">
+                <h5 class="mb-4 border-bottom border-secondary pb-2">Arayüz Seçenekleri</h5>
+                <div class="form-check form-switch mb-4 custom-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="dark-mode" checked disabled>
+                  <label class="form-check-label" for="dark-mode">Karanlık Tema (Göz Yormayan Mod)</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" id="save-settings-btn"><i class="fa-solid fa-save me-2"></i>Ayarları Kaydet</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-danger">
+          <div class="modal-header border-danger">
+            <h5 class="modal-title font-monospace text-danger fw-bold" id="warningModalLabel">
+              <i class="fa-solid fa-triangle-exclamation pulse-danger"></i> SIZINTI TEHLİKESİ TESPİT EDİLDİ
+            </h5>
+          </div>
+          <div class="modal-body p-4">
+            <p class="mb-4 fs-5">Yapay zeka analiz motoru verilere dayanarak boru hattında yüksek riskli bir değişim saptadı.</p>
+            <div class="p-3 bg-black rounded" id="warning-reasons">
+            </div>
+            <p class="mt-4 text-warning small"><i class="fa-solid fa-circle-info"></i> Lütfen acil müdahale ekiplerini bölgeye yönlendirin.</p>
+          </div>
+          <div class="modal-footer border-secondary">
+            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Yoksay</button>
+            <button type="button" class="btn btn-danger" id="acknowledge-btn">Güvenliği Sağla (Alarmı Sustur)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./scripts/jquery-4.0.0.min.js"></script>
+    <script src="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.js"></script>
+    <script src="./styles/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="./scripts/simulation.js"></script>
+    <script src="./scripts/ui_manager.js"></script>
+    <script src="./scripts/charts.js"></script>
+    <script src="./scripts/chatbot.js"></script>
+    <script src="./scripts/main.js"></script>
+  </body>
+</html>

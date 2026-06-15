@@ -1,7 +1,123 @@
-body {
-  font-size: 16px;
+﻿html, body {
+  min-height: 100%;
+  width: 100%;
 }
-.aktif {
-  color: red;
-  font-size: 18px;
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  background-color: #121212;
+}
+
+body.sidebar-open {
+  overflow: hidden;
+}
+
+.wrapper {
+  min-height: 100vh;
+}
+
+.page-view {
+  min-height: calc(100vh - 3.5rem);
+}
+
+@media (max-width: 991.98px) {
+  body {
+    overflow-x: hidden;
+  }
+  #content {
+    padding: 0.75rem 1rem;
+  }
+  .page-view {
+    min-height: auto;
+  }
+  .chart-container,
+  .log-container {
+    min-height: auto !important;
+  }
+  .data-card h3 {
+    font-size: 2rem;
+  }
+  .topbar-action {
+    display: inline-flex;
+  }
+}
+
+#content {
+  transition: all 0.3s;
+}
+
+.bg-dark {
+  background-color: #1a1d21 !important;
+}
+
+.bg-black {
+  background-color: #121416 !important;
+}
+
+.status-indicator .status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-indicator .status-dot.healthy {
+  background-color: #28a745;
+  box-shadow: 0 0 8px #28a745;
+}
+
+.status-indicator .status-dot.warning {
+  background-color: #ffc107;
+  box-shadow: 0 0 8px #ffc107;
+}
+
+.status-indicator .status-dot.danger {
+  background-color: #dc3545;
+  box-shadow: 0 0 12px #dc3545;
+  animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.log-container {
+  max-height: 480px;
+}
+
+.log-item {
+  border-left: 3px solid #6c757d;
+  background-color: rgba(255, 255, 255, 0.02);
+  transition: background-color 0.2s;
+}
+
+.log-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.log-item.log-danger {
+  border-left-color: #dc3545;
+}
+
+.log-item.log-warning {
+  border-left-color: #ffc107;
+}
+
+.pulse-danger {
+  animation: p-danger 1s infinite;
+}
+
+@keyframes p-danger {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); text-shadow: 0 0 10px #dc3545; }
+  100% { transform: scale(1); }
+}
+
+.reason-item {
+  border-bottom: 1px solid #333;
+}
+.reason-item:last-child {
+  border-bottom: none;
 }
