@@ -34,24 +34,45 @@
   color: #fff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
   #sidebar {
-    min-width: 80px;
-    max-width: 80px;
-    text-align: center;
+    min-width: 250px;
+    max-width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1050;
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.35);
   }
-  #sidebar .sidebar-header h3 {
-    font-size: 12px;
-    word-break: break-all;
+  body.sidebar-open #sidebar {
+    transform: translateX(0);
   }
-  #sidebar ul li a i {
-    font-size: 1.5em;
-    margin: 0 !important;
+  #sidebar .sidebar-header {
+    padding-top: 1.5rem;
+  }
+  #sidebar ul.components {
+    padding-top: 1rem;
   }
   #sidebar ul li a {
-    font-size: 0;
+    font-size: 0.95rem;
   }
   #sidebar ul li a .badge {
+    display: inline-block;
+    position: absolute;
+    right: 16px;
+    top: 14px;
+  }
+  .sidebar-overlay {
     display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1040;
+  }
+  body.sidebar-open .sidebar-overlay {
+    display: block;
   }
 }

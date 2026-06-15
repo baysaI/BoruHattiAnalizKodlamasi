@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css" />
     <link rel="stylesheet" href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./styles/main.css" />
@@ -41,8 +41,12 @@
 
       <div id="content" class="w-100 flex-grow-1 p-0 bg-dark text-light position-relative overflow-hidden">
         <div id="settings-view" class="page-view animate-fade-in p-4 h-100 overflow-auto">
-          <h2 class="mb-4">Sistem Ayarları</h2>
-          <div class="row align-items-start">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <button id="sidebar-toggle" class="btn btn-outline-light d-md-none topbar-action me-3" type="button"><i class="fa-solid fa-bars"></i></button>
+            <h2 class="mb-0">Sistem Ayarları</h2>
+          </div>
+          <form id="settings-form" class="needs-validation" novalidate>
+            <div class="row align-items-start">
             <div class="col-lg-6 mb-4">
               <div class="bg-black p-4 rounded shadow mb-4">
                 <h5 class="mb-4 border-bottom border-secondary pb-2">Sensör Alarm Eşikleri</h5>
@@ -80,6 +84,9 @@
                   <input class="form-check-input" type="checkbox" role="switch" id="sms-notifications">
                   <label class="form-check-label" for="sms-notifications">Saha Ekibine SMS Gönder</label>
                 </div>
+                <div id="notification-validation" class="invalid-feedback d-none">
+                  En az bir bildirim seçeneği etkin olmalıdır.
+                </div>
               </div>
 
               <div class="bg-black p-4 rounded shadow">
@@ -88,13 +95,16 @@
                   <input class="form-check-input" type="checkbox" role="switch" id="dark-mode" checked disabled>
                   <label class="form-check-label" for="dark-mode">Karanlık Tema (Göz Yormayan Mod)</label>
                 </div>
-                <button class="btn btn-primary w-100" id="save-settings-btn"><i class="fa-solid fa-save me-2"></i>Ayarları Kaydet</button>
+                <button type="submit" class="btn btn-primary w-100" id="save-settings-btn"><i class="fa-solid fa-save me-2"></i>Ayarları Kaydet</button>
               </div>
             </div>
           </div>
+        </form>
         </div>
       </div>
     </div>
+
+    <div class="sidebar-overlay"></div>
 
     <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true" data-bs-backdrop="static">
       <div class="modal-dialog modal-dialog-centered">

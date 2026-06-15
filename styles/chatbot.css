@@ -46,6 +46,23 @@
   animation: chatPopUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+@media (max-width: 576px) {
+  #ai-chatbot-window {
+    width: calc(100vw - 40px);
+    right: 10px;
+    left: 10px;
+    bottom: 80px;
+    height: calc(100vh - 120px);
+  }
+  #ai-chatbot-input-area {
+    gap: 8px;
+  }
+  #ai-chatbot-send {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 @keyframes chatPopUp {
   0% { opacity: 0; transform: scale(0.5); }
   100% { opacity: 1; transform: scale(1); }

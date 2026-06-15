@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./scripts/jquery-ui-1.14.2.custom/jquery-ui.min.css" />
     <link rel="stylesheet" href="./styles/bootstrap-5.3.8-dist/css/bootstrap.min.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./styles/main.css" />
@@ -42,7 +42,10 @@
       <div id="content" class="w-100 flex-grow-1 p-0 bg-dark text-light position-relative overflow-hidden">
         <div id="sensors-view" class="page-view animate-fade-in p-4 h-100 overflow-auto">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Sensör Ağı Durumu</h2>
+            <div class="d-flex align-items-center">
+              <button id="sidebar-toggle" class="btn btn-outline-light d-md-none topbar-action me-3" type="button"><i class="fa-solid fa-bars"></i></button>
+              <h2 class="mb-0">Sensör Ağı Durumu</h2>
+            </div>
             <button class="btn btn-primary btn-sm"><i class="fa-solid fa-rotate-right me-2"></i>Ağı Yenile</button>
           </div>
           <div class="row g-4">
@@ -104,6 +107,8 @@
         </div>
       </div>
     </div>
+
+    <div class="sidebar-overlay"></div>
 
     <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true" data-bs-backdrop="static">
       <div class="modal-dialog modal-dialog-centered">

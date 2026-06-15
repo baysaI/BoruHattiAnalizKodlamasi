@@ -1,11 +1,46 @@
-﻿body {
+﻿html, body {
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   background-color: #121212;
 }
 
+body.sidebar-open {
+  overflow: hidden;
+}
+
 .wrapper {
   min-height: 100vh;
+}
+
+.page-view {
+  min-height: calc(100vh - 3.5rem);
+}
+
+@media (max-width: 991.98px) {
+  body {
+    overflow-x: hidden;
+  }
+  #content {
+    padding: 0.75rem 1rem;
+  }
+  .page-view {
+    min-height: auto;
+  }
+  .chart-container,
+  .log-container {
+    min-height: auto !important;
+  }
+  .data-card h3 {
+    font-size: 2rem;
+  }
+  .topbar-action {
+    display: inline-flex;
+  }
 }
 
 #content {
