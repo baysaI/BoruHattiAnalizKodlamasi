@@ -45,3 +45,6 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# --- Yerel anahtar dosyasi ---
+scripts/config.js

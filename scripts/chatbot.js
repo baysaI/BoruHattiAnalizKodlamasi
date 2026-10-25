@@ -1,4 +1,4 @@
-﻿const GEMINI_API_KEY = "BURAYA_API_ANAHTARINIZI_GIRIN";
+const GEMINI_API_KEY = (window.APP_CONFIG && window.APP_CONFIG.GEMINI_API_KEY) || localStorage.getItem("GEMINI_API_KEY") || "BURAYA_API_ANAHTARINIZI_GIRIN";
 
 const ChatbotManager = {
   chatHistory: [
@@ -115,7 +115,7 @@ const ChatbotManager = {
 
     try {
       if (GEMINI_API_KEY === "BURAYA_API_ANAHTARINIZI_GIRIN") {
-        throw new Error("Lütfen scripts/chatbot.js dosyasına geçerli bir GEMINI_API_KEY girin.");
+        throw new Error("Gemini API anahtarı bulunamadı. scripts/config.example.js dosyasını scripts/config.js olarak kopyalayıp anahtarınızı yazın.");
       }
 
       const botReply = await this.callGeminiAPI(text);
